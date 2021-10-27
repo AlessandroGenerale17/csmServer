@@ -1,32 +1,31 @@
 'use strict';
-
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    class user extends Model {
+    class question extends Model {
         static associate(models) {
             // define association here
         }
     }
-    user.init(
+    question.init(
         {
-            name: {
+            title: {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            email: {
-                type: DataTypes.STRING,
-                unique: true,
+            description: {
+                type: DataTypes.TEXT,
                 allowNull: false
             },
-            password: {
+            prompt: DataTypes.TEXT,
+            fName: {
                 type: DataTypes.STRING,
                 allowNull: false
             }
         },
         {
             sequelize,
-            modelName: 'user'
+            modelName: 'question'
         }
     );
-    return user;
+    return question;
 };
