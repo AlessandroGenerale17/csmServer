@@ -17,6 +17,10 @@ module.exports = {
                 allowNull: false
             },
             prompt: {
+                type: Sequelize.TEXT,
+                allowNull: false
+            },
+            hiddenPrompt: {
                 type: Sequelize.TEXT
             },
             fName: {

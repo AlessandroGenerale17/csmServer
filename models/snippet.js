@@ -1,12 +1,19 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    class question extends Model {
+    class snippet extends Model {
         static associate(models) {
-            // define association here
+            this.belongsTo(models.user, {
+                through: 'users',
+                foreignKey: 'userId'
+            });
+            this.belongsTo(models.language, {
+                through: 'languages',
+                foreignKey: 'languageId'
+            });
         }
     }
-    question.init(
+    snippet.init(
         {
             title: {
                 type: DataTypes.STRING,
@@ -16,22 +23,23 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.TEXT,
                 allowNull: false
             },
-            prompt: {
+            code: {
                 type: DataTypes.TEXT,
                 allowNull: false
             },
-            hiddenPrompt: {
-                type: DataTypes.TEXT
+            userId: {
+                type: DataTypes.INTEGER,
+                allowNull: false
             },
-            fName: {
-                type: DataTypes.STRING,
+            languageId: {
+                type: DataTypes.INTEGER,
                 allowNull: false
             }
         },
         {
             sequelize,
-            modelName: 'question'
+            modelName: 'snippet'
         }
     );
-    return question;
+    return snippet;
 };
