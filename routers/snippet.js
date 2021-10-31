@@ -42,6 +42,26 @@ router
         } catch (err) {
             next(err);
         }
+    })
+    .post(async (req, res, next) => {
+        try {
+            // FIXME userId from auth
+            console.log('hello from post');
+            const { title, description, code, userId, languageId } = req.body;
+            const newSnippet = await Snippet.create({
+                title,
+                description,
+                code,
+                userId,
+                languageId
+            });
+            const snippetToSend = await newSnippet.reload({
+                include: [Language]
+            });
+            return res.status(200).send(snippetToSend);
+        } catch (err) {
+            next(err);
+        }
     });
 
 router
