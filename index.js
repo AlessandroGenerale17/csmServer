@@ -5,9 +5,16 @@ const { PORT } = require('./config/constants');
 const authRouter = require('./routers/auth');
 const challengeRouter = require('./routers/challenge');
 const snippetRouter = require('./routers/snippet');
-const authMiddleWare = require('./auth/middleware');
+const http = require('http');
 
 const app = express();
+
+const server = http.createServer(app);
+
+const io = require('socket.io')(server, {
+    cors: { origin: '*' }
+});
+
 /**
  * Middlewares: DO NOT REGISTER ANY ROUTERS BEFORE THE MIDDLEWARES
  *
@@ -98,8 +105,24 @@ app.use('/', authRouter);
 app.use('/challenges', challengeRouter);
 app.use('/snippets', snippetRouter);
 
-// Listen for connections on specified port (default is port 4000)
+/**
+ *
+ * SOCKETS
+ *
+ */
+io.on('connection', (socket) => {
+    console.log('user ID ', socket.id);
+    const id = socket.id;
+    socket.on('message-server', (_) => {
+        io.emit('private', `hello ${id}`);
+    });
 
-app.listen(PORT, () => {
+    socket.on('message-secondChannel', (_) => {
+        io.emit('second-channel', `hello ${id} second channel`);
+    });
+});
+
+// Listen for connections on specified port (default is port 4000)
+server.listen(PORT, () => {
     console.log(`Listening on port: ${PORT}`);
 });
