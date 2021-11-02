@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
                 through: 'difficulties',
                 foreignKey: 'difficultyId'
             });
+            this.hasMany(models.testcase);
         }
     }
     challenge.init(
