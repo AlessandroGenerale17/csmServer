@@ -51,6 +51,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false
             },
+            numArgs: {
+                type: DataTypes.INTEGER,
+                allowNull: false
+            },
             difficultyId: {
                 type: DataTypes.INTEGER,
                 allowNull: false

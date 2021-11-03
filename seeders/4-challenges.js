@@ -15,6 +15,7 @@ module.exports = {
                     difficultyId: 1,
                     fName: 'add',
                     prompt: 'function add (a, b) {\n\treturn 0;\n}',
+                    numArgs: 2,
                     createdAt: new Date(),
                     updatedAt: new Date()
                 },
@@ -28,6 +29,7 @@ module.exports = {
                     difficultyId: 1,
                     fName: 'subtract',
                     prompt: `function subtract (a, b) {\n\t return 0;\n}`,
+                    numArgs: 2,
                     createdAt: new Date(),
                     updatedAt: new Date()
                 }
