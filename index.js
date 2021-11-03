@@ -5,6 +5,7 @@ const { PORT } = require('./config/constants');
 const authRouter = require('./routers/auth');
 const challengeRouter = require('./routers/challenge');
 const snippetRouter = require('./routers/snippet');
+const languageRouter = require('./routers/language');
 const authMiddleWare = require('./auth/middleware');
 
 const app = express();
@@ -97,6 +98,7 @@ if (process.env.DELAY) {
 app.use('/', authRouter);
 app.use('/challenges', challengeRouter);
 app.use('/snippets', snippetRouter);
+app.use('/languages', languageRouter);
 
 // Listen for connections on specified port (default is port 4000)
 

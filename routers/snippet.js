@@ -69,7 +69,7 @@ router
     .get(async (req, res, next) => {
         try {
             const id = parseInt(req.params.id);
-            const snippet = await Snippet.findByPk(id);
+            const snippet = await Snippet.findByPk(id, { include: [Language] });
             if (!snippet) return res.status(404).send('Snippet not found');
             return res.status(200).send(snippet);
         } catch (err) {
