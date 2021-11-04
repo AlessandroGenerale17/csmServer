@@ -34,6 +34,14 @@ module.exports = (sequelize, DataTypes) => {
             languageId: {
                 type: DataTypes.INTEGER,
                 allowNull: false
+            },
+            public: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false
+            },
+            issue: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false
             }
         },
         {

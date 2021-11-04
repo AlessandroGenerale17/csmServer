@@ -6,6 +6,7 @@ const authRouter = require('./routers/auth');
 const challengeRouter = require('./routers/challenge');
 const snippetRouter = require('./routers/snippet');
 const languageRouter = require('./routers/language');
+const homeRouter = require('./routers/home');
 const authMiddleWare = require('./auth/middleware');
 
 const app = express();
@@ -99,6 +100,7 @@ app.use('/', authRouter);
 app.use('/challenges', challengeRouter);
 app.use('/snippets', snippetRouter);
 app.use('/languages', languageRouter);
+app.use('/home', homeRouter);
 
 // Listen for connections on specified port (default is port 4000)
 

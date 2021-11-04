@@ -30,10 +30,18 @@ module.exports = {
                 onUpdate: 'CASCADE',
                 onDelete: 'SET NULL'
             },
+            public: {
+                type: Sequelize.BOOLEAN,
+                allowNull: false
+            },
+            issue: {
+                type: Sequelize.BOOLEAN,
+                allowNull: false
+            },
             languageId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
-				references: {
+                references: {
                     model: 'languages',
                     key: 'id'
                 },
