@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
                 through: 'languages',
                 foreignKey: 'languageId'
             });
+
+            this.hasMany(models.like);
         }
     }
     snippet.init(
