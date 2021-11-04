@@ -7,6 +7,11 @@ module.exports = {
                 name: 'JavaScript',
                 createdAt: new Date(),
                 updatedAt: new Date()
+            },
+            {
+                name: 'Java',
+                createdAt: new Date(),
+                updatedAt: new Date()
             }
         ]);
     },

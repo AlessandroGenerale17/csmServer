@@ -51,6 +51,10 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false
             },
+            numArgs: {
+                type: Sequelize.INTEGER,
+                allowNull: false
+            },
             difficultyId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,

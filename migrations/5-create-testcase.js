@@ -1,24 +1,30 @@
 'use strict';
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('difficulties', {
+        await queryInterface.createTable('testcases', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
-            name: {
+            args: {
                 type: Sequelize.STRING,
                 allowNull: false
             },
-            value: {
+            solution: {
+                type: Sequelize.STRING,
+                allowNull: false
+            },
+            challengeId: {
                 type: Sequelize.INTEGER,
-                allowNull: false
-            },
-            color: {
-                type: Sequelize.STRING,
-                allowNull: false
+                allowNull: false,
+                references: {
+                    model: 'challenges',
+                    key: 'id'
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'SET NULL'
             },
             createdAt: {
                 allowNull: false,
@@ -31,6 +37,6 @@ module.exports = {
         });
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('difficulties');
+        await queryInterface.dropTable('testcases');
     }
 };
