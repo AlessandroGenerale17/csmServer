@@ -89,11 +89,15 @@ router
     })
     .patch(async (req, res, next) => {
         try {
+            console.log('req body', req.body);
             const id = parseInt(req.params.id);
             const snippet = await Snippet.findByPk(id);
             if (!snippet) return res.status(404).send('Snippet not found');
             const updatedSnippet = await snippet.update({ ...req.body });
-            return res.status(200).send(updatedSnippet);
+            const snippetToSend = await updatedSnippet.reload({
+                include: [Language]
+            });
+            return res.status(200).send(snippetToSend);
         } catch (err) {
             next(err);
         }
