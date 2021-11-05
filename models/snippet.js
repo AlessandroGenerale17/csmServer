@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
             });
 
             this.hasMany(models.like);
+            this.hasMany(models.comment);
         }
     }
     snippet.init(
