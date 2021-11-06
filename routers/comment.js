@@ -1,15 +1,17 @@
 const { Router } = require('express');
 const Comment = require('../models/').comment;
 const User = require('../models/').user;
+const authMiddleware = require('../auth/middleware');
 
 const router = new Router();
 
-router.route('/').post(async (req, res, next) => {
+router.route('/').post(authMiddleware, async (req, res, next) => {
     try {
-        const { text, snippetId, userId } = req.body;
+        const { text, snippetId } = req.body;
+        const userId = parseInt(req.user.id);
         const comment = await Comment.create({
-            userId,
             snippetId,
+            userId,
             text
         });
         const commentToSend = await comment.reload({

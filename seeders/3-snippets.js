@@ -28,8 +28,8 @@ module.exports = {
                     updatedAt: new Date()
                 },
                 {
-                    title: 'Snippet3',
-                    description: 'JS implementation for loop',
+                    title: 'For Loop in JavaScript',
+                    description: `Loops can execute a block of code a number of times. The for loop has the following syntax:\ \`for(statement1; statement2; statement3) {\ \t//code block to be executed\ }\``,
                     code: 'for (let i = 0; i < N; i++);',
                     userId: 2,
                     languageId: 1,

@@ -68,7 +68,41 @@ router
                 issue
             });
             const snippetToSend = await newSnippet.reload({
-                include: [Language]
+                include: [
+                    {
+                        model: User,
+                        attributes: {
+                            exclude: [
+                                'password',
+                                'email',
+                                'createdAt',
+                                'updatedAt'
+                            ]
+                        }
+                    },
+                    {
+                        model: Language
+                    },
+                    {
+                        model: Like,
+                        attributes: {
+                            exclude: ['updatedAt', 'createdAt']
+                        }
+                    },
+                    {
+                        model: Comment,
+                        attributes: {
+                            exclude: ['updatedAt']
+                        },
+                        include: {
+                            model: User,
+                            attributes: {
+                                exclude: ['updatedAt', 'email', 'password']
+                            }
+                        }
+                    }
+                ],
+                order: [[{ model: Comment }, 'createdAt', 'DESC']]
             });
             return res.status(200).send(snippetToSend);
         } catch (err) {
@@ -127,9 +161,10 @@ router
     .delete(async (req, res, next) => {
         try {
             const id = parseInt(req.params.id);
+            console.log('DELETING ', id);
             const snippet = await Snippet.findByPk(id);
             if (!snippet) return res.status(404).send('Snippet not found');
-            snippet.destroy();
+            await snippet.destroy();
             return res.status(200).send('Snippet deleted');
         } catch (err) {
             next(err);
@@ -143,7 +178,41 @@ router
             if (!snippet) return res.status(404).send('Snippet not found');
             const updatedSnippet = await snippet.update({ ...req.body });
             const snippetToSend = await updatedSnippet.reload({
-                include: [Language]
+                include: [
+                    {
+                        model: User,
+                        attributes: {
+                            exclude: [
+                                'password',
+                                'email',
+                                'createdAt',
+                                'updatedAt'
+                            ]
+                        }
+                    },
+                    {
+                        model: Language
+                    },
+                    {
+                        model: Like,
+                        attributes: {
+                            exclude: ['updatedAt', 'createdAt']
+                        }
+                    },
+                    {
+                        model: Comment,
+                        attributes: {
+                            exclude: ['updatedAt']
+                        },
+                        include: {
+                            model: User,
+                            attributes: {
+                                exclude: ['updatedAt', 'email', 'password']
+                            }
+                        }
+                    }
+                ],
+                order: [[{ model: Comment }, 'createdAt', 'DESC']]
             });
             return res.status(200).send(snippetToSend);
         } catch (err) {
