@@ -115,7 +115,8 @@ router
                             }
                         }
                     }
-                ]
+                ],
+                order: [[{ model: Comment }, 'createdAt', 'DESC']]
             });
             if (!snippet) return res.status(404).send('Snippet not found');
             return res.status(200).send(snippet);
