@@ -151,8 +151,16 @@ io.on('connection', (socket) => {
         io.to('halo').emit('newMessage', data);
     });
 
-    socket.on('disconnect', (room) => {
-        console.log('disconnecting ', socket.id);
+    {/* disconnext only if we find the room */}
+    socket.on('disc', (room) => {
+        if (rooms.find((room) => room.name === 'halo'))
+            console.log('disconnecting ', socket.id);
+    });
+
+    socket.on('terminate', (room) => {
+        console.log('terminating');
+        // delete the room;
+        io.to('halo').emit('terminate');
     });
 });
 
