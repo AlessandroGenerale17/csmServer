@@ -2,6 +2,7 @@ const express = require('express');
 const loggerMiddleWare = require('morgan');
 const corsMiddleWare = require('cors');
 const { PORT } = require('./config/constants');
+const http = require('http');
 const authRouter = require('./routers/auth');
 const challengeRouter = require('./routers/challenge');
 const snippetRouter = require('./routers/snippet');
@@ -9,9 +10,17 @@ const languageRouter = require('./routers/language');
 const homeRouter = require('./routers/home');
 const likeRouter = require('./routers/like');
 const commentRouter = require('./routers/comment');
-const authMiddleWare = require('./auth/middleware');
+const {
+    findRoom,
+    createRoom,
+    isRoomAlive,
+    removeUserFromRoom,
+    addMessageToRoom
+} = require('./sockets/index');
 
 const app = express();
+
+const server = http.createServer(app);
 /**
  * Middlewares: DO NOT REGISTER ANY ROUTERS BEFORE THE MIDDLEWARES
  *
@@ -35,7 +44,9 @@ const app = express();
  * docs: https://expressjs.com/en/resources/middleware/cors.html
  *
  */
-
+const io = require('socket.io')(server, {
+    cors: { origin: '*' }
+});
 app.use(corsMiddleWare());
 
 /**
@@ -106,8 +117,46 @@ app.use('/home', homeRouter);
 app.use('/likes', likeRouter);
 app.use('/comments', commentRouter);
 
-// Listen for connections on specified port (default is port 4000)
+/*
+ * SOCKETS
+ */
+io.on('connection', (socket) => {
+    console.log('USER  ID ', socket.id);
 
-app.listen(PORT, () => {
+    socket.on('join_room', ({ roomId, user }) => {
+        console.log('REQUEST TO JOIN ROOM ', roomId);
+
+        // does the current room exist ?
+        const room = isRoomAlive(roomId)
+            ? findRoom(roomId)
+            : createRoom(roomId);
+
+        room.users.push(user);
+
+        socket.join(roomId);
+        console.log('sending messages ', room.messages);
+        console.log('users active ', room.users);
+        io.to(room.id).emit('joined_room', room.messages);
+    });
+
+    socket.on('leave_room', ({ roomId, user }) => {
+        console.log('REQUEST TO LEAVE ROOM', roomId);
+        removeUserFromRoom(roomId, user.id);
+        io.to(roomId).emit('left', user);
+    });
+
+    socket.on('new_message', ({ roomId, user, text }) => {
+        addMessageToRoom(roomId, user, text);
+        io.to(roomId).emit('new_message', { user: user, text: text });
+    });
+
+    socket.on('terminate_session', ({ roomId }) => {
+        removeRoom(roomId);
+        io.to(roomId).emit('terminate_session');
+    });
+});
+
+// Listen for connections on specified port (default is port 4000)
+server.listen(PORT, () => {
     console.log(`Listening on port: ${PORT}`);
 });
