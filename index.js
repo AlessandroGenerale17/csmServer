@@ -6,6 +6,7 @@ const authRouter = require('./routers/auth');
 const challengeRouter = require('./routers/challenge');
 const snippetRouter = require('./routers/snippet');
 const http = require('http');
+const Snippet = require('./models/').snippet;
 
 const app = express();
 
@@ -110,15 +111,48 @@ app.use('/snippets', snippetRouter);
  * SOCKETS
  *
  */
+const rooms = [];
+const users = [];
+
 io.on('connection', (socket) => {
     console.log('user ID ', socket.id);
     const id = socket.id;
-    socket.on('message-server', (_) => {
-        io.emit('private', `hello ${id}`);
+    // socket.on('message-server', (_) => {
+    //     io.emit('private', `hello ${id}`);
+    // });
+
+    // socket.on('message-secondChannel', (_) => {
+    //     io.emit('second-channel', `hello ${id} second channel`);
+    // });
+
+    socket.on('join_room', (room) => {
+        console.log('room  ', room);
+        // We send the room and then join the socket to that rooms
+        console.log('current ', rooms);
+        if (!rooms.filter((room) => room.id === room).length > 0) {
+            const newRoom = { id: room, users: [], messages: [] };
+            newRoom.users.push(socket.id);
+            rooms.push(newRoom);
+            console.log('pushing new room ', newRoom);
+        } else {
+            rooms[room].users.push(socket.id);
+        }
+        socket.join(room);
+        io.to(room).emit(
+            'joined',
+            rooms.find((room) => room.id === 'halo').messages
+        );
     });
 
-    socket.on('message-secondChannel', (_) => {
-        io.emit('second-channel', `hello ${id} second channel`);
+    socket.on('new_message', (data) => {
+        rooms
+            .find((room) => room.id === 'halo')
+            .messages.push({ id: 1, message: data });
+        io.to('halo').emit('newMessage', data);
+    });
+
+    socket.on('disconnect', (room) => {
+        console.log('disconnecting ', socket.id);
     });
 });
 
