@@ -21,7 +21,7 @@ router.route('/:id').get(async (req, res, next) => {
     try {
         const id = parseInt(req.params.id);
         const challenge = await Challenge.findByPk(id, {
-            include: [Testcase]
+            include: [Testcase, Language]
         });
         if (!challenge) return res.status(404).send('Challenge not found');
         return res.status(200).send(challenge);

@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
                 through: 'languages',
                 foreignKey: 'languageId'
             });
+
+            this.hasMany(models.like);
+            this.hasMany(models.comment);
         }
     }
     snippet.init(
@@ -33,6 +36,14 @@ module.exports = (sequelize, DataTypes) => {
             },
             languageId: {
                 type: DataTypes.INTEGER,
+                allowNull: false
+            },
+            public: {
+                type: DataTypes.BOOLEAN,
+                allowNull: false
+            },
+            issue: {
+                type: DataTypes.BOOLEAN,
                 allowNull: false
             }
         },

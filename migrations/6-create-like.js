@@ -1,24 +1,12 @@
 'use strict';
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('snippets', {
+        await queryInterface.createTable('likes', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER
-            },
-            title: {
-                type: Sequelize.STRING,
-                allowNull: false
-            },
-            description: {
-                type: Sequelize.TEXT,
-                allowNull: false
-            },
-            code: {
-                type: Sequelize.TEXT,
-                allowNull: false
             },
             userId: {
                 type: Sequelize.INTEGER,
@@ -28,25 +16,17 @@ module.exports = {
                     key: 'id'
                 },
                 onUpdate: 'CASCADE',
-                onDelete: 'SET NULL'
+                onDelete: 'CASCADE'
             },
-            public: {
-                type: Sequelize.BOOLEAN,
-                allowNull: false
-            },
-            issue: {
-                type: Sequelize.BOOLEAN,
-                allowNull: false
-            },
-            languageId: {
+            snippetId: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 references: {
-                    model: 'languages',
+                    model: 'snippets',
                     key: 'id'
                 },
                 onUpdate: 'CASCADE',
-                onDelete: 'SET NULL'
+                onDelete: 'CASCADE'
             },
             createdAt: {
                 allowNull: false,
@@ -59,6 +39,6 @@ module.exports = {
         });
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('snippets');
+        await queryInterface.dropTable('likes');
     }
 };

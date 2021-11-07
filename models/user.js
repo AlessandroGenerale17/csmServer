@@ -5,6 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     class user extends Model {
         static associate(models) {
             this.hasMany(models.snippet);
+            this.hasMany(models.like);
+            this.hasMany(models.comment);
         }
     }
     user.init(
@@ -21,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
             password: {
                 type: DataTypes.STRING,
                 allowNull: false
+            },
+            imgUrl: {
+                type: DataTypes.STRING
             }
         },
         {
