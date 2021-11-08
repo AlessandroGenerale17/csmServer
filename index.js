@@ -109,9 +109,14 @@ if (process.env.DELAY) {
  * DEFINE YOUR ROUTES AFTER THIS MESSAGE (now that middlewares are configured)
  */
 
+const socketMiddleware = (req, res, next) => {
+    req.io = io;
+    next();
+};
+
 app.use('/', authRouter);
 app.use('/challenges', challengeRouter);
-app.use('/snippets', snippetRouter);
+app.use('/snippets', socketMiddleware, snippetRouter);
 app.use('/languages', languageRouter);
 app.use('/home', homeRouter);
 app.use('/likes', likeRouter);

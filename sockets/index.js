@@ -24,13 +24,16 @@ const createRoom = (roomId) => {
 
 const addMessageToRoom = (roomId, user, text) => {
     const room = findRoom(roomId);
-    room.messages = [{user, text}, ...room.messages];
+    room.messages = [{ user, text }, ...room.messages];
 };
+
+const getAllRooms = () => rooms;
 
 module.exports = {
     findRoom,
     createRoom,
     isRoomAlive,
     removeUserFromRoom,
-    addMessageToRoom
+    addMessageToRoom,
+    getAllRooms
 };
