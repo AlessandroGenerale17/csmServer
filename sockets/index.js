@@ -22,6 +22,10 @@ const createRoom = (roomId) => {
     return newRoom;
 };
 
+const removeRoom = (roomId) => {
+    rooms = rooms.filter((room) => room.id !== roomId);
+};
+
 const addMessageToRoom = (roomId, user, text) => {
     const room = findRoom(roomId);
     room.messages = [{ user, text }, ...room.messages];
@@ -35,5 +39,6 @@ module.exports = {
     isRoomAlive,
     removeUserFromRoom,
     addMessageToRoom,
-    getAllRooms
+    getAllRooms,
+    removeRoom
 };

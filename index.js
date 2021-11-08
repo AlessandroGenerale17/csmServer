@@ -15,7 +15,8 @@ const {
     createRoom,
     isRoomAlive,
     removeUserFromRoom,
-    addMessageToRoom
+    addMessageToRoom,
+    removeRoom
 } = require('./sockets/index');
 
 const app = express();
@@ -147,7 +148,12 @@ io.on('connection', (socket) => {
     socket.on('leave_room', ({ roomId, user }) => {
         console.log('REQUEST TO LEAVE ROOM', roomId);
         removeUserFromRoom(roomId, user.id);
-        io.to(roomId).emit('left', user);
+
+        const room = findRoom(roomId);
+        if (room.users.length === 0) {
+            console.log('deleting room');
+            removeRoom(roomId);
+        } else io.to(roomId).emit('left', user);
     });
 
     socket.on('new_message', ({ roomId, user, text }) => {
