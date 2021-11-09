@@ -11,7 +11,7 @@ module.exports = {
                     name: 'testuser',
                     email: 'test@test.com',
                     password: bcrypt.hashSync('test1234', SALT_ROUNDS),
-                    imgUrl: 'https://res.cloudinary.com/dpkg9kv62/image/upload/v1636221591/mkfcdovfitaspnazshnv.png',
+                    imgUrl: 'https://res.cloudinary.com/dpkg9kv62/image/upload/v1636220308/sample.jpg',
                     createdAt: new Date(),
                     updatedAt: new Date()
                 },

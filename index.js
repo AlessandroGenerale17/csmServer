@@ -16,7 +16,8 @@ const {
     isRoomAlive,
     removeUserFromRoom,
     addMessageToRoom,
-    removeRoom
+    removeRoom,
+    findUserInRoom
 } = require('./sockets/index');
 
 const app = express();
@@ -130,14 +131,15 @@ io.on('connection', (socket) => {
     console.log('USER  ID ', socket.id);
 
     socket.on('join_room', ({ roomId, user }) => {
-        console.log('REQUEST TO JOIN ROOM ', roomId);
+        console.log('REQUEST TO JOIN ROOM ', roomId, user);
 
         // does the current room exist ?
         const room = isRoomAlive(roomId)
             ? findRoom(roomId)
             : createRoom(roomId);
 
-        room.users.push(user);
+        const foundUser = findUserInRoom(room, user);
+        if (!foundUser) room.users.push(user);
 
         socket.join(roomId);
         console.log('sending messages ', room.messages);

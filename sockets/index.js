@@ -1,10 +1,12 @@
 let rooms = [];
-let users = [];
 
 const isRoomAlive = (roomId) =>
     rooms.filter((room) => room.id === roomId).length > 0;
 
 const findRoom = (roomId) => rooms.find((room) => room.id === roomId);
+
+const findUserInRoom = (room, userId) =>
+    room.users.find((user) => userId === user.id);
 
 const removeUserFromRoom = (roomId, userId) => {
     rooms = rooms.map((room) => {
@@ -40,5 +42,6 @@ module.exports = {
     removeUserFromRoom,
     addMessageToRoom,
     getAllRooms,
-    removeRoom
+    removeRoom,
+    findUserInRoom
 };
