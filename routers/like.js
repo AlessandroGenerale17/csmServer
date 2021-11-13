@@ -1,6 +1,9 @@
 const { Router } = require('express');
 const Snippet = require('../models/').snippet;
 const Like = require('../models/').like;
+const User = require('../models/').user;
+const Language = require('../models/').language;
+const Comment = require('../models/').comment;
 const { Op } = require('sequelize');
 const authMiddleware = require('../auth/middleware');
 
@@ -18,7 +21,46 @@ router
                 userId: userId,
                 snippetId: likedSnippetId
             });
-            return res.status(200).send(like);
+
+            const snippetToSend = await snippet.reload({
+                include: [
+                    {
+                        model: User,
+                        attributes: {
+                            exclude: [
+                                'password',
+                                'email',
+                                'createdAt',
+                                'updatedAt'
+                            ]
+                        }
+                    },
+                    {
+                        model: Language
+                    },
+                    {
+                        model: Like,
+                        attributes: {
+                            exclude: ['updatedAt', 'createdAt']
+                        }
+                    },
+                    {
+                        model: Comment,
+                        attributes: {
+                            exclude: ['updatedAt']
+                        },
+                        include: {
+                            model: User,
+                            attributes: {
+                                exclude: ['updatedAt', 'email', 'password']
+                            }
+                        }
+                    }
+                ]
+            });
+            return res
+                .status(200)
+                .send({ like: like, likedSnippet: snippetToSend });
         } catch (err) {
             next(err);
         }

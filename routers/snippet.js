@@ -16,13 +16,31 @@ router
             // from auth middleware get the id of the user and fetch all his snippets
             const id = req.user.id;
             // include language
-            const snippets = await Snippet.findAll({
-                where: {
-                    userId: id
-                },
-                include: [Language]
-            });
-            return res.status(200).send(snippets);
+            const [snippets, likesWithSnippets] = await Promise.all([
+                Snippet.findAll({
+                    where: {
+                        userId: id
+                    },
+                    include: [Language]
+                }),
+                Like.findAll({
+                    where: {
+                        userId: id
+                    },
+                    include: [
+                        {
+                            model: Snippet,
+                            include: [Language, User]
+                        }
+                    ]
+                })
+            ]);
+
+            const likedSnippets = likesWithSnippets.map((like) => like.snippet);
+
+            return res
+                .status(200)
+                .send({ snippets: snippets, likedSnippets: likedSnippets });
         } catch (err) {
             next(err);
         }
@@ -224,59 +242,5 @@ router
             next(err);
         }
     });
-
-// // FIXME CHECK THIS
-// router.route('/code/:id').patch(async (req, res, next) => {
-//     try {
-//         const id = parseInt(req.params.id);
-//         const snippet = await Snippet.findByPk(id);
-//         if (!snippet) return res.status(404).send('Snippet not found');
-//         console.log('req body', req.body);
-//         const updatedSnippet = await snippet.update({ code: req.body.code });
-//         const room = findRoom(id.toString());
-//         console.log('rooom ', room);
-//         console.log('rooms ', getAllRooms());
-
-//         // const snippetToSend = await updatedSnippet.reload({
-//         const snippetToSend = await Snippet.findByPk(id, {
-//             include: [
-//                 {
-//                     model: User,
-//                     attributes: {
-//                         exclude: ['password', 'email', 'createdAt', 'updatedAt']
-//                     }
-//                 },
-//                 {
-//                     model: Language
-//                 },
-//                 {
-//                     model: Like,
-//                     attributes: {
-//                         exclude: ['updatedAt', 'createdAt']
-//                     }
-//                 },
-//                 {
-//                     model: Comment,
-//                     attributes: {
-//                         exclude: ['updatedAt']
-//                     },
-//                     include: {
-//                         model: User,
-//                         attributes: {
-//                             exclude: ['updatedAt', 'email', 'password']
-//                         }
-//                     }
-//                 }
-//             ],
-//             order: [[{ model: Comment }, 'createdAt', 'DESC']]
-//         });
-
-//         if (room) req.io.to(room.id).emit('snip_update', snippetToSend);
-//         console.log;
-//         return res.status(200).send(snippetToSend);
-//     } catch (err) {
-//         next(err);
-//     }
-// });
 
 module.exports = router;
