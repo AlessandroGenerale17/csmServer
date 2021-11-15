@@ -74,9 +74,10 @@ module.exports = {
                     updatedAt: new Date()
                 },
                 {
-                    title: 'Snippet3',
-                    description: 'JS implementation for loop',
-                    code: 'for (let i = 0; i < N; i++);',
+                    title: 'Conditional Types',
+                    description:
+                        'Type overloading can become cumbersome. As our API grows, a developer would have to write a new overload for each case. Conditional types come in clutch to save the day!',
+                    code: 'type NameOrId<T extends number | string> = T extends number\n\t? IdLabel\n\t: NameLabel;\n\nfunction createLabel<T extends number | string>(idOrName: T): NameOrId<T> {\n\tthrow "unimplemented"\n}\n\nlet a = createLabel("typescript");\n//NameLabel\n\nlet b = createLabel(2.8);\n//IdLabel\n\nlet c = createLabel(Math.random() ? "hello" : 42);\n//NameLabel | IdLabel',
                     userId: 2,
                     languageId: 1,
                     issue: false,
@@ -85,12 +86,12 @@ module.exports = {
                     updatedAt: new Date()
                 },
                 {
-                    title: 'Snippet4',
-                    description: 'JS implementation for loop',
-                    code: 'for (let i = 0; i < N; i++);',
+                    title: 'Keyof Type Operator',
+                    description: `If the type has a \`string\` or \`number\` index signature, \`keyof\` will return those types instead.\n\nNote that in this example, \`M\` is just a \`string | number\` - this is because JavaScript object keys are always coerced to a string, so \`obj[0]\` is always the same as \`obj['0']\`.`,
+                    code: 'type Arrayish = { [n: number]: unknown };\ntype A = keyof Arrayish;\n//type A = number\n\ntype Mapish = { [k: string]: boolean };\ntype M = keyof Mapish;\n//type M = string | number',
                     userId: 2,
                     languageId: 1,
-                    issue: false,
+                    issue: true,
                     public: true,
                     createdAt: new Date(),
                     updatedAt: new Date()
