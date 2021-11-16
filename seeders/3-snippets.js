@@ -95,6 +95,51 @@ module.exports = {
                     public: true,
                     createdAt: new Date(),
                     updatedAt: new Date()
+                },
+                {
+                    title: 'Mapping undefined',
+                    description: `I do not know why I am getting this error. Can someone help me out?\n\n\`Uncaught TypeError: Cannot read property \'tt\' of undefined\``,
+                    code: 'function test (t) {\n  if (t === undefined) {\n    console.log(t.tt);\n  }\n  return t;\n}\n\nvar a;\n\nconsole.log(test(a));',
+                    userId: 2,
+                    languageId: 1,
+                    issue: true,
+                    public: true,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                },
+                {
+                    title: 'Socket IO functions',
+                    description: `Can someone explain the behavior of these three functions from the Socket IO library? Thanks!`,
+                    code: "socket.emit('hello')\n\nsocket.broadcast('hello');\n\nsocket.emit('hello').to('room');",
+                    userId: 2,
+                    languageId: 1,
+                    issue: true,
+                    public: true,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                },
+
+                {
+                    title: 'Objects as React child',
+                    description: `I am getting this error \`Objects are not valid as React child\`. What does this mean? Thanks`,
+                    code: 'export default function getWeatherFromApiAsync() {\n  return fetch(apiUrl)\n  .then((response) => response.json())\n  .then((responseJson) => {\n    return (\n      <div className="App">\n      {responseJson.map((weather) => (\n        <div>\n          <h6> {weather.coord.lon}</h6>\n        </div>\n      ))}\n  </div>\n)\n  })\n  .catch((error) => {\n    console.error(error);\n  });\n}',
+                    userId: 2,
+                    languageId: 1,
+                    issue: true,
+                    public: true,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                },
+                {
+                    title: 'Redux thunk',
+                    description: `I do not understand the following about \`Redux thunk\`. Sometimes we pass a function to the store and other times we pass an object. Can someone explain to me what is going on behind the scenes?`,
+                    code: "export const randomAction (randomPayload) => ({\n  type: 'RANDOM_ACTION',\n  payload: 'randomPayload'\n})\n//we call this function and it returns an object that is then dispatched\n\nexport const = (randomArg) => async (dispatch, getState) => {\n  // a function that returns a function\n}",
+                    userId: 2,
+                    languageId: 1,
+                    issue: true,
+                    public: true,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
                 }
             ],
             {}

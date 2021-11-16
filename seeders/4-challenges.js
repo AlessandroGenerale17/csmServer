@@ -14,7 +14,7 @@ module.exports = {
                     languageId: 1,
                     difficultyId: 1,
                     fName: 'add',
-                    prompt: 'function add (a, b) {\n\treturn 0;\n}',
+                    prompt: 'function add (a, b) {\n  return 0;\n}',
                     numArgs: 2,
                     createdAt: new Date(),
                     updatedAt: new Date()
@@ -28,7 +28,20 @@ module.exports = {
                     languageId: 1,
                     difficultyId: 1,
                     fName: 'subtract',
-                    prompt: `function subtract (a, b) {\n\t return 0;\n}`,
+                    prompt: `function subtract (a, b) {\n  return 0;\n}`,
+                    numArgs: 2,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                },
+                {
+                    title: 'Two Sum',
+                    description: `Given an array of integers \`nums\` and an integer \`target\`, return indices of the two numbers such that they add up to \`target\`.\n\n You may assume that each input would have **exactly one solution**, and you may not use the same element twice.\n\n You can return the answer in any order.`,
+                    code: 'gg',
+                    userId: 1,
+                    languageId: 1,
+                    difficultyId: 1,
+                    fName: 'twoSum',
+                    prompt: `function twoSum(nums, target) {\n  return 0;\n}`,
                     numArgs: 2,
                     createdAt: new Date(),
                     updatedAt: new Date()
