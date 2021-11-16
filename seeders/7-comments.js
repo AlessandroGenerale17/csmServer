@@ -3,26 +3,26 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.bulkInsert(
-            'difficulties',
+            'comments',
             [
                 {
-                    name: 'Easy',
-                    value: 0,
-                    color: 'green',
+                    userId: 7,
+                    snippetId: 4,
+                    text: 'Interesting... I finally understood this :D, thanks!',
                     createdAt: new Date(),
                     updatedAt: new Date()
                 },
                 {
-                    name: 'Medium',
-                    value: 1,
-                    color: 'orange',
+                    userId: 5,
+                    snippetId: 1,
+                    text: 'What is the point of this?',
                     createdAt: new Date(),
                     updatedAt: new Date()
                 },
                 {
-                    name: 'Hard',
-                    value: 2,
-                    color: 'red',
+                    userId: 6,
+                    snippetId: 7,
+                    text: 'Awesome!!',
                     createdAt: new Date(),
                     updatedAt: new Date()
                 }
@@ -32,6 +32,6 @@ module.exports = {
     },
 
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.bulkDelete('difficulties', null, {});
+        await queryInterface.bulkDelete('comments', null, {});
     }
 };

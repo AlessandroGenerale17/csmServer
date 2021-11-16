@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
                 through: 'difficulties',
                 foreignKey: 'difficultyId'
             });
+            this.hasMany(models.testcase);
         }
     }
     challenge.init(
@@ -48,6 +49,10 @@ module.exports = (sequelize, DataTypes) => {
             },
             fName: {
                 type: DataTypes.STRING,
+                allowNull: false
+            },
+            numArgs: {
+                type: DataTypes.INTEGER,
                 allowNull: false
             },
             difficultyId: {

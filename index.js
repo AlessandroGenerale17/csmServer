@@ -2,12 +2,27 @@ const express = require('express');
 const loggerMiddleWare = require('morgan');
 const corsMiddleWare = require('cors');
 const { PORT } = require('./config/constants');
+const http = require('http');
 const authRouter = require('./routers/auth');
 const challengeRouter = require('./routers/challenge');
 const snippetRouter = require('./routers/snippet');
-const authMiddleWare = require('./auth/middleware');
+const languageRouter = require('./routers/language');
+const homeRouter = require('./routers/home');
+const likeRouter = require('./routers/like');
+const commentRouter = require('./routers/comment');
+const {
+    findRoom,
+    createRoom,
+    isRoomAlive,
+    removeUserFromRoom,
+    addMessageToRoom,
+    removeRoom,
+    findUserInRoom
+} = require('./sockets/index');
 
 const app = express();
+
+const server = http.createServer(app);
 /**
  * Middlewares: DO NOT REGISTER ANY ROUTERS BEFORE THE MIDDLEWARES
  *
@@ -31,7 +46,9 @@ const app = express();
  * docs: https://expressjs.com/en/resources/middleware/cors.html
  *
  */
-
+const io = require('socket.io')(server, {
+    cors: { origin: '*' }
+});
 app.use(corsMiddleWare());
 
 /**
@@ -94,12 +111,65 @@ if (process.env.DELAY) {
  * DEFINE YOUR ROUTES AFTER THIS MESSAGE (now that middlewares are configured)
  */
 
+const socketMiddleware = (req, res, next) => {
+    req.io = io;
+    next();
+};
+
 app.use('/', authRouter);
 app.use('/challenges', challengeRouter);
-app.use('/snippets', snippetRouter);
+app.use('/snippets', socketMiddleware, snippetRouter);
+app.use('/languages', languageRouter);
+app.use('/home', homeRouter);
+app.use('/likes', likeRouter);
+app.use('/comments', commentRouter);
+
+/*
+ * SOCKETS
+ */
+io.on('connection', (socket) => {
+    console.log('USER  ID ', socket.id);
+
+    socket.on('join_room', ({ roomId, user }) => {
+        console.log('REQUEST TO JOIN ROOM ', roomId, user);
+
+        // does the current room exist ?
+        const room = isRoomAlive(roomId)
+            ? findRoom(roomId)
+            : createRoom(roomId);
+
+        const foundUser = findUserInRoom(room, user);
+        if (!foundUser) room.users.push(user);
+
+        socket.join(roomId);
+        console.log('sending messages ', room.messages);
+        console.log('users active ', room.users);
+        io.to(room.id).emit('joined_room', room.messages);
+    });
+
+    socket.on('leave_room', ({ roomId, user }) => {
+        console.log('REQUEST TO LEAVE ROOM', roomId);
+        removeUserFromRoom(roomId, user.id);
+
+        const room = findRoom(roomId);
+        if (room.users.length === 0) {
+            console.log('deleting room');
+            removeRoom(roomId);
+        } else io.to(roomId).emit('left', user);
+    });
+
+    socket.on('new_message', ({ roomId, user, text }) => {
+        addMessageToRoom(roomId, user, text);
+        io.to(roomId).emit('new_message', { user: user, text: text });
+    });
+
+    socket.on('terminate_session', ({ roomId }) => {
+        removeRoom(roomId);
+        io.to(roomId).emit('terminate_session');
+    });
+});
 
 // Listen for connections on specified port (default is port 4000)
-
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Listening on port: ${PORT}`);
 });
