@@ -16,16 +16,45 @@ module.exports = {
                     updatedAt: new Date()
                 },
                 {
-                    name: 'dummy',
-                    email: 'a@a.com',
+                    name: 'Alessandro',
+                    email: 'a@g.com',
                     password: bcrypt.hashSync('a', SALT_ROUNDS),
+                    imgUrl: 'https://res.cloudinary.com/dpkg9kv62/image/upload/v1636291498/xu0cewhgrct6gbmj7o5g.png',
                     createdAt: new Date(),
                     updatedAt: new Date()
                 },
                 {
-                    name: 'Alessandro',
-                    email: 'a@g.com',
-                    password: bcrypt.hashSync('a', SALT_ROUNDS),
+                    name: 'dummy',
+                    email: '1@d.com',
+                    password: bcrypt.hashSync('d', SALT_ROUNDS),
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                },
+                {
+                    name: 'dummy2',
+                    email: '2@d.com',
+                    password: bcrypt.hashSync('d', SALT_ROUNDS),
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                },
+                {
+                    name: 'dummy3',
+                    email: '3@d.com',
+                    password: bcrypt.hashSync('d', SALT_ROUNDS),
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                },
+                {
+                    name: 'dummy4',
+                    email: '4@d.com',
+                    password: bcrypt.hashSync('d', SALT_ROUNDS),
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                },
+                {
+                    name: 'dummy5',
+                    email: '5@d.com',
+                    password: bcrypt.hashSync('d', SALT_ROUNDS),
                     createdAt: new Date(),
                     updatedAt: new Date()
                 }
