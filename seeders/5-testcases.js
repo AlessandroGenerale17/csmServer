@@ -53,6 +53,41 @@ module.exports = {
                     challengeId: 3,
                     createdAt: new Date(),
                     updatedAt: new Date()
+                },
+                {
+                    args: '[[3, 2, 4], 6]',
+                    solution: '[1, 2]',
+                    challengeId: 3,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                },
+                {
+                    args: '[[3, 3], 6]',
+                    solution: '[0, 1]',
+                    challengeId: 3,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                },
+                {
+                    args: '[3, 2]',
+                    solution: '9',
+                    challengeId: 4,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                },
+                {
+                    args: '[2, 10]',
+                    solution: '1024',
+                    challengeId: 4,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                },
+                {
+                    args: '[2, -2]',
+                    solution: '0.25',
+                    challengeId: 4,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
                 }
             ],
             {}

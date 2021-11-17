@@ -41,7 +41,20 @@ module.exports = {
                     languageId: 1,
                     difficultyId: 1,
                     fName: 'twoSum',
-                    prompt: `function twoSum(nums, target) {\n  return 0;\n}`,
+                    prompt: 'function twoSum(nums, target) {\n  return 0;\n}',
+                    numArgs: 2,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                },
+                {
+                    title: 'Pow(x, n)',
+                    description: `Implement \`pow(x, n)\`, which calculates \`x\` raised to the power n (i.e., \`x\`^n).`,
+                    code: 'gg',
+                    userId: 1,
+                    languageId: 1,
+                    difficultyId: 2,
+                    fName: 'myPow',
+                    prompt: 'function myPow(x, n) {\n  return 0;\n}',
                     numArgs: 2,
                     createdAt: new Date(),
                     updatedAt: new Date()
